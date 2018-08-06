@@ -24,3 +24,17 @@ class Project(RijpModelBase):
     name = models.CharField(
         max_length=STRING_LENGTH_SHORT
     )
+    test_templates = None
+    test_instances = None
+
+
+class TestTemplate(RijpModelBase):
+    name = models.CharField(
+        max_length=STRING_LENGTH_SHORT
+    )
+
+
+class TestInstance(RijpModelBase):
+    name = models.CharField(
+        max_length=STRING_LENGTH_SHORT
+    )

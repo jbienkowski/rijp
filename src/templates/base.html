@@ -93,6 +93,26 @@
         </div>
     </nav>
 
+    <section class="hero is-medium intro">
+        <div class="hero-body">
+            <div class="container">
+                {% block content %}
+                <div class="intro-columns">
+                    <div class="intro-column is-content">
+                        <div class="intro-content">
+                            <h1 class="title intro-title">
+                                Get it
+                                <strong>rijp</strong>
+                                <br>.
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                {% endblock content %}
+            </div>
+        </div>
+    </section>
+
     <script src="{% static 'js/jquery/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/popper/popper.min.js' %}"></script>
     <script src="{% static 'js/admin4b/admin4b.min.js' %}"></script>
