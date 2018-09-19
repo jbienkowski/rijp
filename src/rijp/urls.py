@@ -1,18 +1,98 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.contrib.auth import views as auth_views
+from django.urls import path, re_path
 
+from accounts import views as accounts_views
 from rijp_portal import views as rijp_views
 
 CACHE_TIME_SHORT = int(getattr(settings, "CACHE_TIME_SHORT", 0))
 CACHE_TIME_MEDIUM = int(getattr(settings, "CACHE_TIME_MEDIUM", 0))
 CACHE_TIME_LONG = int(getattr(settings, "CACHE_TIME_LONG", 0))
-SB_URL_BASE = getattr(settings, "URL_BASE", "")
+URL_BASE = getattr(settings, "URL_BASE", "")
 
 urlpatterns = [
-    path('', rijp_views.IndexListView.as_view(), name='index'),
-    path('admin/', admin.site.urls),
+    path(
+        '',
+        rijp_views.IndexListView.as_view(),
+        name='index'
+    ),
+    #     re_path(
+    #     r'^{}user/(?P<username>\w+)/$'.format(URL_BASE),
+    #     book_view.UserDetailsListView.as_view(),
+    #     name='user_details'
+    # ),
+    path(
+        '{}signup/'.format(URL_BASE),
+        accounts_views.signup,
+        name='signup'
+    ),
+    path(
+        '{}login/'.format(URL_BASE),
+        auth_views.LoginView.as_view(
+            template_name='login.html'
+        ),
+        name='login'
+    ),
+    path(
+        '{}logout/'.format(URL_BASE),
+        auth_views.LogoutView.as_view(),
+        name='logout'
+    ),
+    path(
+        '{}admin/'.format(URL_BASE),
+        admin.site.urls
+    ),
+    # re_path(
+    #     r'^{}settings/account/$'.format(URL_BASE),
+    #     book_view.update_profile,
+    #     name='my_account'
+    # ),
+    path(
+        '{}reset/'.format(URL_BASE),
+        auth_views.PasswordResetView.as_view(
+            template_name='password_reset.html',
+            email_template_name='password_reset_email.html',
+            subject_template_name='password_reset_subject.txt'
+        ),
+        name='password_reset'
+    ),
+    path(
+        '{}reset/done/'.format(URL_BASE),
+        auth_views.PasswordResetDoneView.as_view(
+            template_name='password_reset_done.html'
+        ),
+        name='password_reset_done'
+    ),
+    re_path(
+        r'^' + URL_BASE + r'reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name='password_reset_confirm.html'
+        ),
+        name='password_reset_confirm'
+    ),
+    path(
+        '{}reset/complete/'.format(URL_BASE),
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name='password_reset_complete.html'
+        ),
+        name='password_reset_complete'
+    ),
+    path(
+        '{}settings/password/'.format(URL_BASE),
+        auth_views.PasswordChangeView.as_view(
+            template_name='password_change.html'
+        ),
+        name='password_change'
+    ),
+    path(
+        '{}settings/password/done/'.format(URL_BASE),
+        auth_views.PasswordChangeDoneView.as_view(
+            template_name='password_change_done.html'
+        ),
+        name='password_change_done'
+    ),
 ]
 
 if settings.DEBUG:
