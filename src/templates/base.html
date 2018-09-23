@@ -16,7 +16,7 @@
     <nav id="navbar" class="navbar has-shadow is-spaced">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item" href="#">
+                <a class="navbar-item" href="{% url 'index' %}">
                     <p class="title">rijp</p>
                 </a>
             </div>
@@ -61,15 +61,36 @@
                     </div>
                 </div>
                 <div class="navbar-end">
+                    {% if not user.is_authenticated %}
                     <div class="navbar-item">
                         <div class="field is-grouped is-grouped-multiline">
                             <p class="control">
-                                <a class="button is-primary" href="#">
+                                <a class="button is-primary" href="{% url 'login' %}">
                                     <strong>Login</strong>
                                 </a>
                             </p>
                         </div>
                     </div>
+                    <div class="navbar-item">
+                        <div class="field is-grouped is-grouped-multiline">
+                            <p class="control">
+                                <a class="button" href="{% url 'signup' %}">
+                                    <strong>Signup</strong>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="navbar-item">
+                        <div class="field is-grouped is-grouped-multiline">
+                            <p class="control">
+                                <a class="button is-danger" href="{% url 'logout' %}">
+                                    <strong>Logout</strong>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
