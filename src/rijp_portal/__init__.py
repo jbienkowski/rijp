@@ -1,0 +1,1 @@
+default_app_config = 'rijp_portal.apps.RijpPortalConfig'
