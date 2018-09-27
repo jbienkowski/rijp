@@ -44,11 +44,11 @@ urlpatterns = [
         '{}admin/'.format(URL_BASE),
         admin.site.urls
     ),
-    # re_path(
-    #     r'^{}settings/account/$'.format(URL_BASE),
-    #     book_view.update_profile,
-    #     name='my_account'
-    # ),
+    re_path(
+        r'^{}settings/account/$'.format(URL_BASE),
+        rijp_views.update_profile,
+        name='my_account'
+    ),
     path(
         '{}reset/'.format(URL_BASE),
         auth_views.PasswordResetView.as_view(
