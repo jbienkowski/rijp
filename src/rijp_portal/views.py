@@ -1,12 +1,14 @@
 from django.shortcuts import \
     get_object_or_404, redirect, render, render_to_response
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 from django.db import transaction
 
 from .forms import UserForm, ProfileForm
 
-# Create your views here.
+
+@method_decorator(login_required, name='dispatch')
 class IndexListView(ListView):
     model = None
     context_object_name = 'ctx'

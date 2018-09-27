@@ -22,6 +22,7 @@
             </div>
 
             <div class="navbar-menu">
+                {% if user.is_authenticated %}
                 <div class="navbar-start">
                     <a class="navbar-item is-active" href="#">
                         <span class="icon has-text-primary">
@@ -44,8 +45,6 @@
                             More
                         </a>
                         <div id="moreDropdown" class="navbar-dropdown">
-
-
                             <a class="navbar-item " href="#">
                                 <span>
                                     <span class="icon has-text-success">
@@ -55,11 +54,10 @@
                                     <br>Recent tests
                                 </span>
                             </a>
-
-                            <!-- <hr class="navbar-divider"> -->
                         </div>
                     </div>
                 </div>
+                {% endif %}
                 <div class="navbar-end">
                     {% if not user.is_authenticated %}
                     <div class="navbar-item">

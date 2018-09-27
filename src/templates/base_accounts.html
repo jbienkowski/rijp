@@ -1,15 +1,38 @@
-{% extends 'base.html' %}
 {% load static %}
 
-{% block body %}
-<div class="container">
-  <h1 class="text-center logo my-4">
-    <a href="{% url 'home' %}">rijp</a>
-  </h1>
+<!doctype html>
+<html lang="en">
 
-{% block content %}
-{% endblock %}
-</div>
-{% endblock %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="{% static 'css/bulma/bulma.min.css' %}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+    crossorigin="anonymous">
+  <title>rijp</title>
+</head>
 
-{% block footer %}{% endblock footer %}
+<body>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <div class="columns is-vcentered">
+        <div class="column">
+          <h2 class="subtitle is-4">
+            get it
+          </h2>
+          <h1 class="title is-1 is-bold">
+            rijp
+          </h1>
+          <figure class="image is-128x128" style="margin-left: auto; margin-right: auto;">
+            <img src="{% static 'img/fruits/cherry.svg' %}">
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% block content %}
+  {% endblock %}
+
+</body>
+
+</html>
