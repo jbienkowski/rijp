@@ -24,6 +24,21 @@ urlpatterns = [
     #     name='user_details'
     # ),
     path(
+        '{}dashboard/'.format(URL_BASE),
+        rijp_views.DashboardListView.as_view(),
+        name='dashboard'
+    ),
+    path(
+        '{}projects/'.format(URL_BASE),
+        rijp_views.ProjectsListView.as_view(),
+        name='projects'
+    ),
+    path(
+        '{}tests/'.format(URL_BASE),
+        rijp_views.TestsListView.as_view(),
+        name='tests'
+    ),
+    path(
         '{}signup/'.format(URL_BASE),
         accounts_views.signup,
         name='signup'

@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{% static 'css/bulma/bulma.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/basscss/basscss.min.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
         crossorigin="anonymous">
     <title>Rijp</title>
@@ -24,7 +25,7 @@
             <div class="navbar-menu">
                 {% if user.is_authenticated %}
                 <div class="navbar-start">
-                    <a class="navbar-item is-active" href="#">
+                    <a class="navbar-item is-active" href="{% url 'dashboard' %}">
                         <span class="icon has-text-primary">
                             <i class="fas fa-tachometer-alt"></i>
                         </span>
@@ -32,14 +33,21 @@
                     </a>
 
 
-                    <a class="navbar-item" href="#">
-                        <span class="icon has-text-success">
+                    <a class="navbar-item" href="{% url 'projects' %}">
+                        <span class="icon has-text-info">
                             <i class="fas fa-project-diagram"></i>
                         </span>
                         <span>Projects</span>
                     </a>
 
-                    <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-item" href="{% url 'tests' %}">
+                        <span class="icon has-text-warning">
+                            <i class="fas fa-vial"></i>
+                        </span>
+                        <span>Tests</span>
+                    </a>
+
+                    <!-- <div class="navbar-item has-dropdown is-hoverable">
 
                         <a class="navbar-link">
                             More
@@ -55,7 +63,7 @@
                                 </span>
                             </a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 {% endif %}
                 <div class="navbar-end">
@@ -97,29 +105,32 @@
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="hero-body">
-            <div class="container">
-                {% block content %}
-                <div class="intro-columns">
-                    <div class="intro-column is-content">
-                        <div class="intro-content">
-                            <h1 class="title intro-title">
-                                Get it
-                                <strong>rijp</strong>
-                                <br>.
-                            </h1>
-                        </div>
+    <main>
+        <div class="container pt2">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    {% block breadcrumb %}
+                    {% endblock breadcrumb %}
+                </ul>
+            </nav>
+            {% block content %}
+            <div class="intro-columns">
+                <div class="intro-column is-content">
+                    <div class="intro-content">
+                        <h1 class="title intro-title">
+                            Get it
+                            <strong>rijp</strong>
+                            <br>.
+                        </h1>
                     </div>
                 </div>
-                {% endblock content %}
             </div>
+            {% endblock content %}
         </div>
-    </section>
+    </main>
 
     <script src="{% static 'js/jquery/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/popper/popper.min.js' %}"></script>
-    <script src="{% static 'js/admin4b/admin4b.min.js' %}"></script>
 </body>
 
 </html>

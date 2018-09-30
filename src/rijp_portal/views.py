@@ -18,6 +18,33 @@ class IndexListView(ListView):
         return None
 
 
+@method_decorator(login_required, name='dispatch')
+class ProjectsListView(ListView):
+    model = None
+    template_name = 'projects.html'
+
+    def get_queryset(self):
+        return None
+
+
+@method_decorator(login_required, name='dispatch')
+class DashboardListView(ListView):
+    model = None
+    template_name = 'dashboard.html'
+
+    def get_queryset(self):
+        return None
+
+
+@method_decorator(login_required, name='dispatch')
+class TestsListView(ListView):
+    model = None
+    template_name = 'tests.html'
+
+    def get_queryset(self):
+        return None
+
+
 @login_required
 @transaction.atomic
 def update_profile(request):

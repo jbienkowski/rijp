@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<li><a href="{% url 'index' %}">Home</a></li>
+<li class="is-active"><a href="#" aria-current="page">Tests</a></li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<p>Tests</p>
+{% endblock content %}
