@@ -34,6 +34,11 @@ urlpatterns = [
         name='projects'
     ),
     path(
+        '{}new-project/'.format(URL_BASE),
+        rijp_views.new_project,
+        name='new_project'
+    ),
+    path(
         '{}tests/'.format(URL_BASE),
         rijp_views.TestsListView.as_view(),
         name='tests'

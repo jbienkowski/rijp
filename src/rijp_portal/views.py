@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 from django.db import transaction
 
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm, ProjectForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -43,6 +43,23 @@ class TestsListView(ListView):
 
     def get_queryset(self):
         return None
+
+
+def new_project(request):
+    if request.method == 'POST':
+        project_form = ProjectForm(request.POST)
+        if project_form.is_valid():
+            project_form.save()
+            return redirect('projects')
+        else:
+            return render(request, 'new_project.html', {
+                'project_form': project_form
+            })
+    else:
+        project_form = ProjectForm()
+        return render(request, 'new_project.html', {
+            'project_form': project_form
+        })
 
 
 @login_required
