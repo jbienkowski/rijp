@@ -11,6 +11,11 @@ class UserForm(forms.ModelForm):
             'last_name',
             'email',
         )
+        labels = {
+            'first_name': 'First name',
+            'last_name': 'Last name',
+            'email': 'E-mail',
+        }
 
 
 class ProfileForm(forms.ModelForm):
@@ -19,6 +24,9 @@ class ProfileForm(forms.ModelForm):
         fields = (
             'name',
             )
+        labels = {
+            'name': 'User name',
+        }
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -26,3 +34,6 @@ class ProjectForm(forms.ModelForm):
         fields = (
             'name',
         )
+        labels = {
+            'name': 'Project name',
+        }

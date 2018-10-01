@@ -9,24 +9,30 @@
 {% endblock breadcrumb %}
 
 {% block content %}
-<form method="post" novalidate>
-    {% csrf_token %}
-    <div class="field">
-        <p class="control has-icons-left">
-            {% render_field project_form.name|attr:"class:input"|attr:"type:name"|attr:"placeholder:Project name" %}
-            <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-            </span>
-        </p>
-        {% for e in project_form.name.errors %}
-        <p class="help is-danger">{{ e }}</p>
-        {% endfor %}
-    </div>
-
-    <div class="field">
-        <div class="control">
-            <button type="submit" class="button is-link">Create project</button>
+<div class="column is-6 is-offset-3">
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="field">
+            <label class="label">{{ project_form.name.label_tag }}</label>
+            <p class="control has-icons-left">
+                {% render_field project_form.name|attr:"class:input"|attr:"placeholder:Project name" %}
+                <span class="icon is-small is-left">
+                    <i class="fas fa-project-diagram"></i>
+                </span>
+            </p>
+            {% for e in project_form.name.errors %}
+            <p class="help is-danger">{{ e }}</p>
+            {% endfor %}
         </div>
-    </div>
-</form>
+        <hr>
+        <div class="field is-grouped">
+            <div class="control">
+                <button type="submit" class="button is-link">Create project</button>
+            </div>
+            <div class="control">
+              <a href="{% url 'index' %}" class="button is-text">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
 {% endblock content %}

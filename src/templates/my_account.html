@@ -3,6 +3,11 @@
 
 {% block title %}My account{% endblock %}
 
+{% block breadcrumb %}
+<li><a href="{% url 'index' %}">Home</a></li>
+<li class="is-active"><a href="#" aria-current="page">My account</a></li>
+{% endblock breadcrumb %}
+
 {% block content %}
 <div class="column is-6 is-offset-3">
   <form method="post" novalidate>
@@ -10,7 +15,7 @@
     <div class="field">
       <label class="label">{{ user_form.first_name.label_tag }}</label>
       <p class="control has-icons-left">
-        {% render_field user_form.first_name|attr:"class:input"|attr:"placeholder:first_name" %}
+        {% render_field user_form.first_name|attr:"class:input"|attr:"placeholder:First name" %}
         <span class="icon is-small is-left">
           <i class="fas fa-user"></i>
         </span>
@@ -19,7 +24,7 @@
       <p class="help is-danger">{{ e }}</p>
       {% endfor %}
     </div>
-
+    <hr>
     <div class="field is-grouped">
       <div class="control">
         <button type="submit" class="button is-link">Submit</button>
