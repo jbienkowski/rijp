@@ -5,7 +5,11 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView
 from django.db import transaction
 
-from .forms import UserForm, ProfileForm, ProjectForm
+from .models import \
+    Project
+
+from .forms import \
+    UserForm, ProfileForm, ProjectForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -20,11 +24,13 @@ class IndexListView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 class ProjectsListView(ListView):
-    model = None
+    model = Project
+    context_object_name = 'ctx'
     template_name = 'projects.html'
 
     def get_queryset(self):
-        return None
+        queryset = Project.objects.all()
+        return queryset
 
 
 @method_decorator(login_required, name='dispatch')

@@ -5,11 +5,15 @@
 
 <head>
     <meta charset="utf-8">
+    <title>{% block title %}rijp{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{% static 'css/bulma/bulma.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/basscss/basscss.min.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
         crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/datatable/dataTables.bulma.css' %}">
+    {% block stylesheet %}
+    {% endblock stylesheet %}
     <title>Rijp</title>
 </head>
 
@@ -32,13 +36,34 @@
                         <span>Dashboard</span>
                     </a>
 
-
-                    <a class="navbar-item" href="{% url 'projects' %}">
-                        <span class="icon has-text-info">
-                            <i class="fas fa-project-diagram"></i>
-                        </span>
-                        <span>Projects</span>
-                    </a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+                            Projects
+                        </a>
+                        <div id="moreDropdown" class="navbar-dropdown">
+                            <a class="navbar-item " href="{% url 'projects' %}">
+                                <span>
+                                    <span class="icon has-text-primary">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </span>
+                                    <strong>Open projects</strong>
+                                    <br>
+                                    Open and ongoing
+                                </span>
+                            </a>
+                            <hr class="navbar-divider">
+                            <a class="navbar-item " href="{% url 'projects' %}">
+                                <span>
+                                    <span class="icon has-text-danger">
+                                        <i class="fas fa-history"></i>
+                                    </span>
+                                    <strong>Project archive</strong>
+                                    <br>
+                                    Closed and archived
+                                </span>
+                            </a>
+                        </div>
+                    </div>
 
                     <a class="navbar-item" href="{% url 'tests' %}">
                         <span class="icon has-text-warning">
@@ -46,24 +71,6 @@
                         </span>
                         <span>Tests</span>
                     </a>
-
-                    <!-- <div class="navbar-item has-dropdown is-hoverable">
-
-                        <a class="navbar-link">
-                            More
-                        </a>
-                        <div id="moreDropdown" class="navbar-dropdown">
-                            <a class="navbar-item " href="#">
-                                <span>
-                                    <span class="icon has-text-success">
-                                        <i class="fas fa-vial"></i>
-                                    </span>
-                                    <strong>Tests</strong>
-                                    <br>Recent tests
-                                </span>
-                            </a>
-                        </div>
-                    </div> -->
                 </div>
                 {% endif %}
                 <div class="navbar-end">
@@ -134,6 +141,10 @@
 
     <script src="{% static 'js/jquery/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/popper/popper.min.js' %}"></script>
+    <script src="{% static 'js/datatable/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/datatable/dataTables.bulma.min.js' %}"></script>
+    {% block javascript %}
+    {% endblock javascript %}
 </body>
 
 </html>
