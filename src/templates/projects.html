@@ -19,7 +19,7 @@
         {% for p in ctx %}
         <tr>
             <td>
-                {{ p.name }}
+                <a href="{% url 'project_details' p.pk %}">{{ p.name }}</a>
             </td>
         </tr>
         {% endfor %}

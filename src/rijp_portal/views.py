@@ -34,6 +34,20 @@ class ProjectsListView(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
+class ProjectDetailsListView(ListView):
+    model = Project
+    context_object_name = 'ctx'
+    template_name = 'project_details.html'
+
+    def get_queryset(self):
+        queryset = get_object_or_404(
+            Project,
+            pk=self.kwargs.get('project_pk')
+        )
+        return queryset
+
+
+@method_decorator(login_required, name='dispatch')
 class DashboardListView(ListView):
     model = None
     template_name = 'dashboard.html'
