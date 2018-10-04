@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from .models import Profile, Project
+from .models import Profile, RijpProject
 from django import forms
 
 
@@ -30,7 +30,7 @@ class ProfileForm(forms.ModelForm):
 
 class ProjectForm(forms.ModelForm):
     class Meta:
-        model = Project
+        model = RijpProject
         fields = (
             'name',
         )

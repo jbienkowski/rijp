@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 from django.db import transaction
 
 from .models import \
-    Project
+    RijpProject
 
 from .forms import \
     UserForm, ProfileForm, ProjectForm
@@ -24,7 +24,7 @@ class IndexListView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 class ProjectsListView(ListView):
-    model = Project
+    model = RijpProject
     context_object_name = 'ctx'
     template_name = 'projects.html'
 
@@ -35,13 +35,13 @@ class ProjectsListView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 class ProjectDetailsListView(ListView):
-    model = Project
+    model = RijpProject
     context_object_name = 'ctx'
     template_name = 'project_details.html'
 
     def get_queryset(self):
         queryset = get_object_or_404(
-            Project,
+            RijpProject,
             pk=self.kwargs.get('project_pk')
         )
         return queryset

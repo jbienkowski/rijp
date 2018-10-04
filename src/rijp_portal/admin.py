@@ -20,7 +20,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 admin.site.register(RijpModelBase)
 admin.site.register(Profile)
-admin.site.register(Project)
+admin.site.register(RijpProject)
+admin.site.register(RijpTestTemplate)
+admin.site.register(RijpTestInstance)
 admin.site.register(AccessDefinition)
-admin.site.register(TestTemplate)
-admin.site.register(TestInstance)
