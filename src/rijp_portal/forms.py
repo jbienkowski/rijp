@@ -34,9 +34,15 @@ class ProjectForm(forms.ModelForm):
         model = RijpProject
         fields = (
             'name',
+            'description',
+            'priority',
+            'is_archived',
         )
         labels = {
             'name': 'Project name',
+            'description': 'Description',
+            'priority': 'Priority',
+            'is_archived': 'Is archived',
         }
 
 

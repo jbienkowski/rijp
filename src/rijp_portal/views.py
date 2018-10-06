@@ -61,6 +61,44 @@ class ProjectDetailsListView(ListView):
         )
 
 
+@login_required
+def project_edit(request, project_pk):
+    project = get_object_or_404(
+        RijpProject,
+        pk=project_pk
+    )
+    if request.method == 'POST':
+        form = ProjectForm(
+            request.POST,
+            instance=project
+        )
+        if form.is_valid():
+            form.save()
+            return redirect(
+                'project_details',
+                project.pk
+            )
+        else:
+            return render(
+                request,
+                'project_edit.html',
+                {
+                    'form': form,
+                    'ctx': project
+                }
+            )
+    else:
+        form = ProjectForm(instance=project)
+        return render(
+            request,
+            'project_edit.html',
+            {
+                'form': form,
+                'ctx': project
+            }
+        )
+
+
 @method_decorator(login_required, name='dispatch')
 class ProjectTestTemplateDetailsListView(ListView):
     model = RijpTestTemplate
@@ -151,3 +189,26 @@ def update_profile(request):
             'user_form': user_form,
             'profile_form': profile_form
             })
+
+# Templates
+@login_required
+def view_template(request):
+    if request.method == 'POST':
+        form = None(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+        else:
+            return render(
+                request,
+                'index.html',
+                {
+                    'form': form
+                }
+            )
+    else:
+        form = None
+        return render(
+            request,
+            'index.html'
+        )
