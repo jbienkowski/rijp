@@ -13,15 +13,21 @@ STRING_LENGTH_LONG = 16384
 
 
 class RijpModelBase(models.Model):
+    PRIORITY_CHOICES = (
+        (0, 'Ultra low'),
+        (1, 'Low'),
+        (2, 'Medium'),
+        (3, 'High'),
+        (4, 'Immediate'),
+    )
     created = models.DateTimeField(
         default=timezone.now
     )
     modified = models.DateField(
         default=timezone.now
     )
-    is_deleted = models.DateField(
-        null = True,
-        blank = True
+    is_archived = models.BooleanField(
+        default=False
     )
     name = models.CharField(
         max_length = STRING_LENGTH_SHORT
@@ -29,12 +35,27 @@ class RijpModelBase(models.Model):
     description = models.CharField(
         max_length = STRING_LENGTH_MEDIUM
     )
+    priority = models.IntegerField(
+        choices=PRIORITY_CHOICES,
+        default=2
+    )
+
+    def get_priority(self):
+        return self.PRIORITY_CHOICES[self.priority][1]
+
+    def get_priority_bulma_class(self):
+        return {
+            0: 'is-white',
+            1: 'is-info',
+            2: 'is-warning',
+            3: 'is-danger',
+            4: 'is-black',
+        }.get(self.priority)
+
 
 
 class RijpProject(RijpModelBase):
-    is_archived = models.BooleanField(
-        default=False
-    )
+    pass
 
 
 class RijpTestCaseBase(RijpModelBase):
@@ -125,13 +146,11 @@ class AccessDefinition(models.Model):
         (1, 'Read and write'),
         (9, 'Owner'),
     )
-
     model = models.ForeignKey(
         RijpModelBase,
         related_name='access_definitions',
         on_delete=models.CASCADE
     )
-
     level = models.IntegerField(
         choices=ACCESS_CHOICES,
         default=0

@@ -143,6 +143,14 @@
     <script src="{% static 'js/popper/popper.min.js' %}"></script>
     <script src="{% static 'js/datatable/jquery.dataTables.min.js' %}"></script>
     <script src="{% static 'js/datatable/dataTables.bulma.min.js' %}"></script>
+    <script>
+        $('[id$=modal-open]').on('click', function (e) {
+            $('#modal').addClass('is-active');
+        })
+        $('[id$=modal-close], [id$=modal-cancel]').on('click', function (e) {
+            $('#modal').removeClass('is-active');
+        })
+    </script>
     {% block javascript %}
     {% endblock javascript %}
 </body>

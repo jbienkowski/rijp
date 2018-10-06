@@ -13,6 +13,10 @@
     <thead>
         <tr>
             <th>Project name</th>
+            <th>Description</th>
+            <th>Priority</th>
+            <th>Created</th>
+            <th>Modified</th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +24,18 @@
         <tr>
             <td>
                 <a href="{% url 'project_details' p.pk %}">{{ p.name }}</a>
+            </td>
+            <td>
+                {{ p.description }}
+            </td>
+            <td>
+                <span class="tag {{ p.get_priority_bulma_class }}">{{ p.get_priority }}</span>
+            </td>
+            <td>
+                {{ p.created }}
+            </td>
+            <td>
+                {{ p.modified }}
             </td>
         </tr>
         {% endfor %}

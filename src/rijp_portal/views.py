@@ -6,10 +6,10 @@ from django.views.generic import ListView, DetailView
 from django.db import transaction
 
 from .models import \
-    RijpProject
+    RijpProject, RijpTestTemplate
 
 from .forms import \
-    UserForm, ProfileForm, ProjectForm
+    UserForm, ProfileForm, ProjectForm, ProjectTestTemplateNewForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -29,7 +29,7 @@ class ProjectsListView(ListView):
     template_name = 'projects.html'
 
     def get_queryset(self):
-        queryset = Project.objects.all()
+        queryset = RijpProject.objects.filter(is_archived=False)
         return queryset
 
 
@@ -43,6 +43,34 @@ class ProjectDetailsListView(ListView):
         queryset = get_object_or_404(
             RijpProject,
             pk=self.kwargs.get('project_pk')
+        )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ProjectTestTemplateNewForm
+        return context
+
+    def post(self, request, *args, **kwargs):
+        tt = RijpTestTemplate()
+        tt.name = self.request.POST.get('template_name')
+        tt.project = RijpProject.objects.get(pk=self.kwargs.get('project_pk'))
+        tt.save()
+        return redirect(
+            'project_details', self.kwargs.get('project_pk')
+        )
+
+
+@method_decorator(login_required, name='dispatch')
+class ProjectTestTemplateDetailsListView(ListView):
+    model = RijpTestTemplate
+    context_object_name = 'ctx'
+    template_name = 'project_test_template_details.html'
+
+    def get_queryset(self):
+        queryset = get_object_or_404(
+            RijpTestTemplate,
+            pk=self.kwargs.get('template_pk')
         )
         return queryset
 
@@ -64,7 +92,7 @@ class TestsListView(ListView):
     def get_queryset(self):
         return None
 
-
+@login_required
 def new_project(request):
     if request.method == 'POST':
         project_form = ProjectForm(request.POST)
@@ -80,6 +108,25 @@ def new_project(request):
         return render(request, 'new_project.html', {
             'project_form': project_form
         })
+
+
+@login_required
+def new_project_test_template(request, project_pk):
+    if request.method == 'POST':
+        return render(
+            request,
+            'project_test_template_new.html'
+        )
+    else:
+        ctx = get_object_or_404(
+            RijpProject,
+            pk=project_pk
+        )
+        return render(
+            request,
+            'project_test_template_new.html',
+            {'ctx': ctx}
+        )
 
 
 @login_required

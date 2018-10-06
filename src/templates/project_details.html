@@ -1,15 +1,80 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block title %}rijp / projects{% endblock title %}
 
 {% block breadcrumb %}
 <li><a href="{% url 'index' %}">Home</a></li>
 <li><a href="{% url 'projects' %}">Projects</a></li>
-<li class="is-active"><a href="#" aria-current="page">Project</a></li>
+<li class="is-active"><a href="#" aria-current="page">{{ ctx.name }}</a></li>
 {% endblock breadcrumb %}
 
 {% block content %}
 <h1 class="title">{{ ctx.name }}</h1>
 <h2 class="subtitle">Created on {{ ctx.created }}</h2>
+<hr>
+
+{% if ctx.test_templates.all %}
+<h1 class="title">Test templates</h1>
+<table id="test_templates_table" class="table" width="100%">
+    <thead>
+        <tr>
+            <th>Test template name</th>
+            <th>Created</th>
+            <th>Modified</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in ctx.test_templates.all %}
+        <tr>
+            <td>
+                <a href="{% url 'project_test_template_details' ctx.pk t.pk %}">{{ t.name }}</a>
+            </td>
+            <td>
+                {{ t.created }}
+            </td>
+            <td>
+                {{ t.modified }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+<button id="modal-open" class="button is-link">New test template</button>
+
+<div id="modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">New test template</p>
+            <button id="modal-close" class="delete" aria-label="close"></button>
+        </header>
+        <form action="{% url 'project_details' ctx.pk %}" method="post" novalidate>
+            <section class="modal-card-body">
+                {% csrf_token %}
+                <div class="field">
+                    <p class="control">
+                        {% render_field form.template_name|attr:"class:input"|attr:"placeholder:Test template name" %}
+                    </p>
+                    {% for e in form.username.errors %}
+                    <p class="help is-danger">{{ e }}</p>
+                    {% endfor %}
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button type="submit" class="button is-link">Submit</button>
+            </footer>
+        </form>
+    </div>
+</div>
 {% endblock content %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#test_templates_table').DataTable();
+    })
+</script>
+{% endblock javascript %}

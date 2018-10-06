@@ -28,6 +28,7 @@ class ProfileForm(forms.ModelForm):
             'name': 'User name',
         }
 
+
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = RijpProject
@@ -36,4 +37,15 @@ class ProjectForm(forms.ModelForm):
         )
         labels = {
             'name': 'Project name',
+        }
+
+
+class ProjectTestTemplateNewForm(forms.Form):
+    template_name = forms.CharField(max_length=20)
+    class Meta:
+        fields = (
+            'template_name',
+        )
+        labels = {
+            'template_name': 'Test template name',
         }

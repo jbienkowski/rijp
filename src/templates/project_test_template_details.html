@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}rijp / dashboard{% endblock title %}
+
+{% block breadcrumb %}
+<li><a href="{% url 'index' %}">Home</a></li>
+<li><a href="{% url 'projects' %}">Projects</a></li>
+<li><a href="{% url 'project_details' ctx.project.pk %}">{{ ctx.project.name }}</a></li>
+<li class="is-active"><a>Templates</a></li>
+<li class="is-active"><a href="#" aria-current="page">{{ ctx.name }}</a></li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<h1 class="title">{{ ctx.name }}</h1>
+<h2 class="subtitle">Created on {{ ctx.created }}</h2>
+<hr>
+{% endblock content %}
