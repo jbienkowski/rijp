@@ -9,7 +9,8 @@ from .models import \
     RijpProject, RijpTestTemplate
 
 from .forms import \
-    UserForm, ProfileForm, ProjectForm, ProjectTestTemplateNewForm
+    UserForm, ProfileForm, ProjectForm, \
+    ProjectTestTemplateNewForm, ProjectTestTemplateForm
 
 
 @method_decorator(login_required, name='dispatch')
@@ -113,6 +114,45 @@ class ProjectTestTemplateDetailsListView(ListView):
         return queryset
 
 
+@login_required
+def project_test_template_edit(request, project_pk, template_pk):
+    test_template = get_object_or_404(
+        RijpTestTemplate,
+        pk=template_pk
+    )
+    if request.method == 'POST':
+        form = ProjectTestTemplateForm(
+            request.POST,
+            instance=test_template
+        )
+        if form.is_valid():
+            form.save()
+            return redirect(
+                'project_test_template_details',
+                project_pk,
+                template_pk
+            )
+        else:
+            return render(
+                request,
+                'object_edit.html',
+                {
+                    'form': form,
+                    'ctx': test_template
+                }
+            )
+    else:
+        form = ProjectTestTemplateForm(instance=test_template)
+        return render(
+            request,
+            'object_edit.html',
+            {
+                'form': form,
+                'ctx': test_template
+            }
+        )
+
+
 @method_decorator(login_required, name='dispatch')
 class DashboardListView(ListView):
     model = None
@@ -138,13 +178,13 @@ def new_project(request):
             project_form.save()
             return redirect('projects')
         else:
-            return render(request, 'new_project.html', {
-                'project_form': project_form
+            return render(request, 'project_new.html', {
+                'form': project_form
             })
     else:
         project_form = ProjectForm()
-        return render(request, 'new_project.html', {
-            'project_form': project_form
+        return render(request, 'project_new.html', {
+            'form': project_form
         })
 
 

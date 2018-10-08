@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}rijp / edit project{% endblock title %}
+{% block title %}rijp / edit object{% endblock title %}
 
 {% block breadcrumb %}
 <li><a href="{% url 'index' %}">Home</a></li>
@@ -14,7 +14,7 @@
     {% csrf_token %}
     {% include 'includes/form.html' %}
     <button type="submit" class="button is-success">Save changes</button>
-    <a href="{% url 'project_details' ctx.pk %}" class="button is-text" role="button">Cancel</a>
+    <a href="{% url 'index' %}" class="button is-text" role="button">Cancel</a>
 </form>
 </div>
 {% endblock content %}

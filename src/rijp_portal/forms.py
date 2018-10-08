@@ -1,6 +1,21 @@
 from django.contrib.auth.models import User
-from .models import Profile, RijpProject
+from .models import Profile, RijpProject, RijpTestTemplate
 from django import forms
+
+
+RIJP_MODEL_BASE_FIELDS = (
+    'name',
+    'description',
+    'priority',
+    'is_archived',
+    )
+
+RIJP_MODEL_BASE_LABELS = {
+    'name': 'Name',
+    'description': 'Description',
+    'priority': 'Priority',
+    'is_archived': 'Is archived',
+    }
 
 
 class UserForm(forms.ModelForm):
@@ -32,18 +47,8 @@ class ProfileForm(forms.ModelForm):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = RijpProject
-        fields = (
-            'name',
-            'description',
-            'priority',
-            'is_archived',
-        )
-        labels = {
-            'name': 'Project name',
-            'description': 'Description',
-            'priority': 'Priority',
-            'is_archived': 'Is archived',
-        }
+        fields = RIJP_MODEL_BASE_FIELDS
+        labels = RIJP_MODEL_BASE_LABELS
 
 
 class ProjectTestTemplateNewForm(forms.Form):
@@ -55,3 +60,9 @@ class ProjectTestTemplateNewForm(forms.Form):
         labels = {
             'template_name': 'Test template name',
         }
+
+class ProjectTestTemplateForm(forms.ModelForm):
+    class Meta:
+        model = RijpTestTemplate
+        fields = RIJP_MODEL_BASE_FIELDS
+        labels = RIJP_MODEL_BASE_LABELS

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}rijp / new project{% endblock title %}
+
+{% block breadcrumb %}
+<li><a href="{% url 'index' %}">Home</a></li>
+<li><a href="{% url 'projects' %}">Projects</a></li>
+<li class="is-active"><a href="#" aria-current="page">New project</a></li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="column is-6 is-offset-3">
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        <hr>
+        <button type="submit" class="button is-success">Create project</button>
+        <a href="{% url 'index' %}" class="button is-text" role="button">Cancel</a>
+    </form>
+</div>
+{% endblock content %}

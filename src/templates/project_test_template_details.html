@@ -14,5 +14,6 @@
 {% block content %}
 <h1 class="title">{{ ctx.name }}</h1>
 <h2 class="subtitle">Created on {{ ctx.created }}</h2>
+<a class="button is-link" href="{% url 'project_test_template_edit' ctx.project.pk ctx.pk %}">Edit test template</a>
 <hr>
 {% endblock content %}
