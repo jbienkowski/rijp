@@ -14,6 +14,35 @@ from .forms import \
     ProjectTestTemplateNewForm, ProjectTestTemplateForm
 
 
+def handle_object_edit_request(request, object, form, url_next):
+    if request.method == 'POST':
+        f = form(request.POST, instance=object)
+        if f.is_valid():
+            f.save()
+            return redirect(url_next)
+        else:
+            return render(
+                request,
+                'object_edit.html',
+                {
+                    'form': f,
+                    'ctx': object,
+                    'url_next': url_next,
+                }
+            )
+    else:
+        f = form(instance=object)
+        return render(
+            request,
+            'object_edit.html',
+            {
+                'form': f,
+                'ctx': object,
+                'url_next': url_next,
+            }
+        )
+
+
 @method_decorator(login_required, name='dispatch')
 class IndexListView(ListView):
     model = None
@@ -64,47 +93,36 @@ class ProjectDetailsListView(ListView):
 
 
 @login_required
+def project_new(request):
+    if request.method == 'POST':
+        project_form = ProjectForm(request.POST)
+        if project_form.is_valid():
+            project_form.save()
+            return redirect('projects')
+        else:
+            return render(request, 'project_new.html', {
+                'form': project_form
+            })
+    else:
+        project_form = ProjectForm()
+        return render(request, 'project_new.html', {
+            'form': project_form
+        })
+
+
+@login_required
 def project_edit(request, project_pk):
     obj = get_object_or_404(
         RijpProject,
         pk=project_pk
     )
-    cancel_url = reverse(
+    url_next = reverse(
         'project_details',
         args=[project_pk]
     )
-    if request.method == 'POST':
-        form = ProjectForm(
-            request.POST,
-            instance=obj
-        )
-        if form.is_valid():
-            form.save()
-            return redirect(
-                'project_details',
-                project_pk
-            )
-        else:
-            return render(
-                request,
-                'object_edit.html',
-                {
-                    'form': form,
-                    'ctx': obj,
-                    'cancel_url': cancel_url,
-                }
-            )
-    else:
-        form = ProjectForm(instance=obj)
-        return render(
-            request,
-            'object_edit.html',
-            {
-                'form': form,
-                'ctx': obj,
-                'cancel_url': cancel_url,
-            }
-        )
+    return handle_object_edit_request(
+        request, obj, ProjectForm, url_next
+    )
 
 
 @method_decorator(login_required, name='dispatch')
@@ -122,48 +140,37 @@ class ProjectTestTemplateDetailsListView(ListView):
 
 
 @login_required
+def project_test_template_new(request, project_pk):
+    if request.method == 'POST':
+        return render(
+            request,
+            'project_test_template_new.html'
+        )
+    else:
+        ctx = get_object_or_404(
+            RijpProject,
+            pk=project_pk
+        )
+        return render(
+            request,
+            'project_test_template_new.html',
+            {'ctx': ctx}
+        )
+
+
+@login_required
 def project_test_template_edit(request, project_pk, template_pk):
     obj = get_object_or_404(
         RijpTestTemplate,
         pk=template_pk
     )
-    cancel_url = reverse(
+    url_next = reverse(
         'project_test_template_details',
         args=[project_pk, template_pk]
     )
-    if request.method == 'POST':
-        form = ProjectTestTemplateForm(
-            request.POST,
-            instance=obj
-        )
-        if form.is_valid():
-            form.save()
-            return redirect(
-                'project_test_template_details',
-                project_pk,
-                template_pk
-            )
-        else:
-            return render(
-                request,
-                'object_edit.html',
-                {
-                    'form': form,
-                    'ctx': obj,
-                    'cancel_url': cancel_url
-                }
-            )
-    else:
-        form = ProjectTestTemplateForm(instance=obj)
-        return render(
-            request,
-            'object_edit.html',
-            {
-                'form': form,
-                'ctx': obj,
-                'cancel_url': cancel_url
-            }
-        )
+    return handle_object_edit_request(
+        request, obj, ProjectTestTemplateForm, url_next
+    )
 
 
 @method_decorator(login_required, name='dispatch')
@@ -182,42 +189,6 @@ class TestsListView(ListView):
 
     def get_queryset(self):
         return None
-
-@login_required
-def new_project(request):
-    if request.method == 'POST':
-        project_form = ProjectForm(request.POST)
-        if project_form.is_valid():
-            project_form.save()
-            return redirect('projects')
-        else:
-            return render(request, 'project_new.html', {
-                'form': project_form
-            })
-    else:
-        project_form = ProjectForm()
-        return render(request, 'project_new.html', {
-            'form': project_form
-        })
-
-
-@login_required
-def new_project_test_template(request, project_pk):
-    if request.method == 'POST':
-        return render(
-            request,
-            'project_test_template_new.html'
-        )
-    else:
-        ctx = get_object_or_404(
-            RijpProject,
-            pk=project_pk
-        )
-        return render(
-            request,
-            'project_test_template_new.html',
-            {'ctx': ctx}
-        )
 
 
 @login_required
@@ -242,37 +213,3 @@ def update_profile(request):
             'user_form': user_form,
             'profile_form': profile_form
             })
-
-# Templates
-@login_required
-def view_template(request):
-    object = None
-    cancel_url = reverse(
-        'index'
-    )
-    if request.method == 'POST':
-        form = None(request.POST, instance=object)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-        else:
-            return render(
-                request,
-                'index.html',
-                {
-                    'form': form,
-                    'ctx': object,
-                    'cancel_url': cancel_url,
-                }
-            )
-    else:
-        form = None(instance=object)
-        return render(
-            request,
-            'index.html',
-            {
-                'form': form,
-                'ctx': object,
-                'cancel_url': cancel_url,
-            }
-        )

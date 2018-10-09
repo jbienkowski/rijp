@@ -69,14 +69,7 @@
         <form action="{% url 'project_details' ctx.pk %}" method="post" novalidate>
             <section class="modal-card-body">
                 {% csrf_token %}
-                <div class="field">
-                    <p class="control">
-                        {% render_field form.template_name|attr:"class:input"|attr:"placeholder:Test template name" %}
-                    </p>
-                    {% for e in form.username.errors %}
-                    <p class="help is-danger">{{ e }}</p>
-                    {% endfor %}
-                </div>
+                {% include 'includes/form.html' %}
             </section>
             <footer class="modal-card-foot">
                 <button type="submit" class="button is-success">Submit</button>
