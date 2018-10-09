@@ -2,6 +2,7 @@ from django.shortcuts import \
     get_object_or_404, redirect, render, render_to_response
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.db import transaction
 
@@ -64,38 +65,44 @@ class ProjectDetailsListView(ListView):
 
 @login_required
 def project_edit(request, project_pk):
-    project = get_object_or_404(
+    obj = get_object_or_404(
         RijpProject,
         pk=project_pk
+    )
+    cancel_url = reverse(
+        'project_details',
+        args=[project_pk]
     )
     if request.method == 'POST':
         form = ProjectForm(
             request.POST,
-            instance=project
+            instance=obj
         )
         if form.is_valid():
             form.save()
             return redirect(
                 'project_details',
-                project.pk
+                project_pk
             )
         else:
             return render(
                 request,
-                'project_edit.html',
+                'object_edit.html',
                 {
                     'form': form,
-                    'ctx': project
+                    'ctx': obj,
+                    'cancel_url': cancel_url,
                 }
             )
     else:
-        form = ProjectForm(instance=project)
+        form = ProjectForm(instance=obj)
         return render(
             request,
-            'project_edit.html',
+            'object_edit.html',
             {
                 'form': form,
-                'ctx': project
+                'ctx': obj,
+                'cancel_url': cancel_url,
             }
         )
 
@@ -116,14 +123,18 @@ class ProjectTestTemplateDetailsListView(ListView):
 
 @login_required
 def project_test_template_edit(request, project_pk, template_pk):
-    test_template = get_object_or_404(
+    obj = get_object_or_404(
         RijpTestTemplate,
         pk=template_pk
+    )
+    cancel_url = reverse(
+        'project_test_template_details',
+        args=[project_pk, template_pk]
     )
     if request.method == 'POST':
         form = ProjectTestTemplateForm(
             request.POST,
-            instance=test_template
+            instance=obj
         )
         if form.is_valid():
             form.save()
@@ -138,17 +149,19 @@ def project_test_template_edit(request, project_pk, template_pk):
                 'object_edit.html',
                 {
                     'form': form,
-                    'ctx': test_template
+                    'ctx': obj,
+                    'cancel_url': cancel_url
                 }
             )
     else:
-        form = ProjectTestTemplateForm(instance=test_template)
+        form = ProjectTestTemplateForm(instance=obj)
         return render(
             request,
             'object_edit.html',
             {
                 'form': form,
-                'ctx': test_template
+                'ctx': obj,
+                'cancel_url': cancel_url
             }
         )
 
@@ -233,8 +246,12 @@ def update_profile(request):
 # Templates
 @login_required
 def view_template(request):
+    object = None
+    cancel_url = reverse(
+        'index'
+    )
     if request.method == 'POST':
-        form = None(request.POST)
+        form = None(request.POST, instance=object)
         if form.is_valid():
             form.save()
             return redirect('index')
@@ -243,12 +260,19 @@ def view_template(request):
                 request,
                 'index.html',
                 {
-                    'form': form
+                    'form': form,
+                    'ctx': object,
+                    'cancel_url': cancel_url,
                 }
             )
     else:
-        form = None
+        form = None(instance=object)
         return render(
             request,
-            'index.html'
+            'index.html',
+            {
+                'form': form,
+                'ctx': object,
+                'cancel_url': cancel_url,
+            }
         )
