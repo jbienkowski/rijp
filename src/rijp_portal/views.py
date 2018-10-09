@@ -7,11 +7,12 @@ from django.views.generic import ListView, DetailView
 from django.db import transaction
 
 from .models import \
-    RijpProject, RijpTestTemplate
+    RijpProject, RijpTestTemplate, RijpTestCaseTemplate
 
 from .forms import \
     UserForm, ProfileForm, ProjectForm, \
-    ProjectTestTemplateNewForm, ProjectTestTemplateForm
+    ProjectTestTemplateNewForm, ProjectTestTemplateForm, \
+    ProjectTestCaseTemplateForm
 
 
 def handle_object_edit_request(request, object, form, url_next):
@@ -137,6 +138,32 @@ class ProjectTestTemplateDetailsListView(ListView):
             pk=self.kwargs.get('template_pk')
         )
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = ProjectTestCaseTemplateForm
+        return context
+
+    def post(self, request, *args, **kwargs):
+        tt = RijpTestCaseTemplate()
+        tt.name = self.request.POST.get('name')
+        tt.description = self.request.POST.get('description')
+        tt.prerequisites = self.request.POST.get('prerequisites')
+        tt.procedure = self.request.POST.get('procedure')
+        tt.data = self.request.POST.get('data')
+        tt.expected_result = self.request.POST.get('expected_result')
+        tt.status = self.request.POST.get('status')
+        tt.remarks = self.request.POST.get('remarks')
+        tt.test_environment = self.request.POST.get('test_environment')
+        tt.test_template = RijpTestTemplate.objects.get(
+            pk=self.kwargs.get('template_pk')
+        )
+        tt.save()
+        return redirect(
+            'project_test_template_details',
+            self.kwargs.get('project_pk'),
+            self.kwargs.get('template_pk')
+        )
 
 
 @login_required
