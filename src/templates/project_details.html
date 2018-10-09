@@ -12,52 +12,83 @@
 
 {% block content %}
 
-<h1 class="title">{{ ctx.name }}</h1>
-<h2 class="subtitle">Created on {{ ctx.created }}</h2>
-<a class="button is-link" href="{% url 'project_edit' ctx.pk %}">Edit project</a>
-<hr>
+<div class="tabs is-medium">
+    <ul>
+        <li id="tab_project_summary" class="is-active">
+            <a>
+                <span>Summary</span>
+            </a>
+        </li>
+        <li id="tab_project_test_templates">
+            <a>
+                <span>Test templates</span>
+            </a>
+        </li>
+        <li id="tab_project_test_instances">
+            <a>
+                <span>Test instances</span>
+            </a>
+        </li>
+    </ul>
+</div>
 
-{% if ctx.test_instances.all %}
-<h1 class="title">Test instances</h1>
-<hr>
-{% endif %}
+<div id="div_project_summary">
+    <h1 class="title">{{ ctx.name }}</h1>
+    <h2 class="subtitle">Created on {{ ctx.created }}</h2>
+    <p>Description: {{ ctx.description }}</p>
+    <p>Priority: <span class="tag {{ ctx.get_priority_bulma_class }}">{{ ctx.get_priority }}</span></p>
+    <hr>
+    <a class="button is-link" href="{% url 'project_edit' ctx.pk %}">Edit project</a>
+</div>
 
-{% if ctx.test_templates.all %}
-<h1 class="title">Test templates</h1>
-<table id="test_templates_table" class="table" width="100%">
-    <thead>
-        <tr>
-            <th>Test template name</th>
-            <th>Description</th>
-            <th>Priority</th>
-            <th>Created</th>
-            <th>Modified</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for t in ctx.test_templates.all %}
-        <tr>
-            <td>
-                <a href="{% url 'project_test_template_details' ctx.pk t.pk %}">{{ t.name }}</a>
-            </td>
-            <td>
-                {{ t.description }}
-            </td>
-            <td>
-                <span class="tag {{ t.get_priority_bulma_class }}">{{ t.get_priority }}</span>
-            </td>
-            <td>
-                {{ t.created }}
-            </td>
-            <td>
-                {{ t.modified }}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endif %}
-<button id="modal-open" class="button is-link">New test template</button>
+<div id="div_project_test_templates" hidden>
+    {% if ctx.test_templates.all %}
+    <table id="test_templates_table" class="table" width="100%">
+        <thead>
+            <tr>
+                <th>Test template name</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Created</th>
+                <th>Modified</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in ctx.test_templates.all %}
+            <tr>
+                <td>
+                    <a href="{% url 'project_test_template_details' ctx.pk t.pk %}">{{ t.name }}</a>
+                </td>
+                <td>
+                    {{ t.description }}
+                </td>
+                <td>
+                    <span class="tag {{ t.get_priority_bulma_class }}">{{ t.get_priority }}</span>
+                </td>
+                <td>
+                    {{ t.created }}
+                </td>
+                <td>
+                    {{ t.modified }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>Nothing to show</p>
+    {% endif %}
+    <hr>
+    <button id="modal-open" class="button is-link">New test template</button>
+</div>
+
+<div id="div_project_test_instances" hidden>
+    {% if ctx.test_instances.all %}
+        here they are
+    {% else %}
+        <p>Nothing to show</p>
+    {% endif %}
+</div>
 
 <div id="modal" class="modal">
     <div class="modal-background"></div>
@@ -85,5 +116,24 @@
     $(document).ready(function () {
         $('#test_templates_table').DataTable();
     })
+    function hideall() {
+        $("[id^=tab_project]").removeClass('is-active');
+        $("[id^=div_project]").prop('hidden', true);
+    }
+    $('#tab_project_summary').on('click', function(e) {
+        hideall();
+        $('#tab_project_summary').addClass('is-active');
+        $('#div_project_summary').prop('hidden', false);
+    });
+    $('#tab_project_test_templates').on('click', function(e) {
+        hideall();
+        $('#tab_project_test_templates').addClass('is-active');
+        $('#div_project_test_templates').prop('hidden', false);
+    });
+    $('#tab_project_test_instances').on('click', function(e) {
+        hideall();
+        $('#tab_project_test_instances').addClass('is-active');
+        $('#div_project_test_instances').prop('hidden', false);
+    });
 </script>
 {% endblock javascript %}
