@@ -94,12 +94,13 @@
 
 <div id="modal" class="modal">
     <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">New test case template</p>
-            <button id="modal-close" class="delete" aria-label="close"></button>
-        </header>
-        <form action="{% url 'project_test_template_details' ctx.pk %}" method="post" novalidate>
+    <form action="{% url 'project_test_template_details' ctx.pk %}" method="post" novalidate>
+        <div class="modal-card">
+
+            <header class="modal-card-head">
+                <p class="modal-card-title">New test case template</p>
+                <a id="modal-close" class="delete" aria-label="close"></a>
+            </header>
             <section class="modal-card-body">
                 {% csrf_token %}
                 {% include 'includes/form.html' %}
@@ -107,8 +108,8 @@
             <footer class="modal-card-foot">
                 <button type="submit" class="button is-success">Submit</button>
             </footer>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 {% endblock content %}
 

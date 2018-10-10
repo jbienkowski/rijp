@@ -161,7 +161,6 @@ class ProjectTestTemplateDetailsListView(ListView):
         tt.save()
         return redirect(
             'project_test_template_details',
-            self.kwargs.get('project_pk'),
             self.kwargs.get('template_pk')
         )
 

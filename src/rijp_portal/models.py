@@ -33,7 +33,8 @@ class RijpModelBase(models.Model):
         max_length = STRING_LENGTH_SHORT
     )
     description = models.CharField(
-        max_length = STRING_LENGTH_MEDIUM
+        max_length = STRING_LENGTH_MEDIUM,
+        blank = True
     )
     priority = models.IntegerField(
         choices=PRIORITY_CHOICES,
@@ -51,7 +52,6 @@ class RijpModelBase(models.Model):
             3: 'is-danger',
             4: 'is-black',
         }.get(self.priority)
-
 
 
 class RijpProject(RijpModelBase):
@@ -89,7 +89,7 @@ class RijpTestCaseBase(RijpModelBase):
     )
 
     def get_status(self):
-        return 'Status {}'.format(self.STATUS_CHOICES[self.status][1])
+        return 'Test {}'.format(self.STATUS_CHOICES[self.status][1].lower())
 
     def get_status_bulma_class(self):
         return {
