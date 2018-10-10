@@ -5,7 +5,7 @@
     <div class="control">
         {% if field|field_type == 'charfield' %}
             <label class="label">{{ field.label }}</label>
-            {% render_field field|attr:"class:input" %}
+            {% render_field field|attr:"class:textarea" rows="4" %}
         {% elif field|field_type == 'typedchoicefield' %}
             <label class="label">{{ field.label }}</label>
             <div class="select">

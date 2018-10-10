@@ -49,14 +49,24 @@ urlpatterns = [
         name='project_edit'
     ),
     re_path(
-        r'^{}projects/(?P<project_pk>\w+)/test-templates/(?P<template_pk>\w+)/$'.format(URL_BASE),
+        r'^{}test-templates/(?P<template_pk>\w+)/$'.format(URL_BASE),
         rijp_views.ProjectTestTemplateDetailsListView.as_view(),
         name='project_test_template_details'
     ),
     re_path(
-        r'^{}projects/(?P<project_pk>\w+)/test-templates/(?P<template_pk>\w+)/edit/$'.format(URL_BASE),
+        r'^{}test-templates/(?P<template_pk>\w+)/edit/$'.format(URL_BASE),
         rijp_views.project_test_template_edit,
         name='project_test_template_edit'
+    ),
+    re_path(
+        r'^{}test-case-templates/(?P<test_case_template_pk>\w+)/$'.format(URL_BASE),
+        rijp_views.ProjectTestCaseTemplateDetailsListView.as_view(),
+        name='project_test_case_template_details'
+    ),
+    re_path(
+        r'^{}test-case-templates/(?P<test_case_template_pk>\w+)/edit/$'.format(URL_BASE),
+        rijp_views.project_test_case_template_edit,
+        name='project_test_case_template_edit'
     ),
     path(
         '{}tests/'.format(URL_BASE),

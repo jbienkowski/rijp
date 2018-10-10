@@ -186,17 +186,46 @@ def project_test_template_new(request, project_pk):
 
 
 @login_required
-def project_test_template_edit(request, project_pk, template_pk):
+def project_test_template_edit(request, template_pk):
     obj = get_object_or_404(
         RijpTestTemplate,
         pk=template_pk
     )
     url_next = reverse(
         'project_test_template_details',
-        args=[project_pk, template_pk]
+        args=[template_pk]
     )
     return handle_object_edit_request(
         request, obj, ProjectTestTemplateForm, url_next
+    )
+
+
+@method_decorator(login_required, name='dispatch')
+class ProjectTestCaseTemplateDetailsListView(ListView):
+    model = RijpTestCaseTemplate
+    context_object_name = 'ctx'
+    template_name = 'project_test_case_template_details.html'
+
+    def get_queryset(self):
+        queryset = get_object_or_404(
+            RijpTestCaseTemplate,
+            pk=self.kwargs.get('test_case_template_pk')
+        )
+        return queryset
+
+
+@login_required
+def project_test_case_template_edit(request, test_case_template_pk):
+    obj = get_object_or_404(
+        RijpTestCaseTemplate,
+        pk=test_case_template_pk
+    )
+    url_next = reverse(
+        'project_test_case_template_details',
+        args=[test_case_template_pk]
+    )
+    return handle_object_edit_request(
+        request, obj, ProjectTestCaseTemplateForm, url_next
     )
 
 

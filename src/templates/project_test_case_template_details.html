@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}rijp / test case template{% endblock title %}
+
+{% block breadcrumb %}
+<li><a href="{% url 'index' %}">Home</a></li>
+<li><a href="{% url 'projects' %}">Projects</a></li>
+<li><a href="{% url 'project_details' ctx.test_template.project.pk %}">{{ ctx.test_template.project.name }}</a></li>
+<li class="is-active"><a>Test templates</a></li>
+<li><a href="{% url 'project_test_template_details' ctx.test_template.pk %}">{{ ctx.test_template.name }}</a></li>
+<li class="is-active"><a>Test case templates</a></li>
+<li class="is-active"><a href="#" aria-current="page">{{ ctx.name }}</a></li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<h1 class="title">{{ ctx.name }}</h1>
+<h2 class="subtitle is-4">Created on {{ ctx.created }}</h2>
+<span class="tag is-large {{ ctx.get_priority_bulma_class }}">{{ ctx.get_priority }}</span>
+<span class="tag is-large {{ ctx.get_status_bulma_class }}">Test {{ ctx.get_status }}</span>
+
+<hr>
+
+<label class="label">Description</label>
+<textarea class="textarea" rows="1" readonly>{{ ctx.description }}</textarea>
+
+<label class="label">Prerequisites</label>
+<textarea class="textarea" rows="1" readonly>{{ ctx.prerequisites }}</textarea>
+
+<label class="label">Procedure</label>
+<textarea class="textarea" rows="1" readonly>{{ ctx.procedure }}</textarea>
+
+<label class="label">Data</label>
+<textarea class="textarea" rows="1" readonly>{{ ctx.data }}</textarea>
+
+<label class="label">Expected result</label>
+<textarea class="textarea" rows="1" readonly>{{ ctx.expected_result }}</textarea>
+
+<label class="label">Remarks</label>
+<textarea class="textarea" rows="1" readonly>{{ ctx.remarks }}</textarea>
+
+<label class="label">Test environment</label>
+<textarea class="textarea" rows="1" readonly>{{ ctx.test_environment }}</textarea>
+
+<hr>
+
+<a class="button is-link" href="{% url 'project_test_case_template_edit' ctx.pk %}">Edit</a>
+{% endblock content %}

@@ -35,10 +35,12 @@
 <div id="div_project_summary">
     <h1 class="title">{{ ctx.name }}</h1>
     <h2 class="subtitle">Created on {{ ctx.created }}</h2>
-    <p>Description: {{ ctx.description }}</p>
-    <p>Priority: <span class="tag {{ ctx.get_priority_bulma_class }}">{{ ctx.get_priority }}</span></p>
+    <span class="tag is-large {{ ctx.get_priority_bulma_class }}">{{ ctx.get_priority }}</span>
     <hr>
-    <a class="button is-link" href="{% url 'project_edit' ctx.pk %}">Edit project</a>
+    <label class="label">Description</label>
+    <textarea class="textarea" rows="1" readonly>{{ ctx.description }}</textarea>
+    <hr>
+    <a class="button is-link" href="{% url 'project_edit' ctx.pk %}">Edit</a>
 </div>
 
 <div id="div_project_test_templates" hidden>
@@ -57,7 +59,7 @@
             {% for t in ctx.test_templates.all %}
             <tr>
                 <td>
-                    <a href="{% url 'project_test_template_details' ctx.pk t.pk %}">{{ t.name }}</a>
+                    <a href="{% url 'project_test_template_details' t.pk %}">{{ t.name }}</a>
                 </td>
                 <td>
                     {{ t.description }}
@@ -76,7 +78,7 @@
         </tbody>
     </table>
     {% else %}
-        <p>Nothing to show</p>
+    <p>Nothing to show</p>
     {% endif %}
     <hr>
     <button id="modal-open" class="button is-link">New test template</button>

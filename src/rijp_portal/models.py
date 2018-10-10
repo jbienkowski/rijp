@@ -41,7 +41,7 @@ class RijpModelBase(models.Model):
     )
 
     def get_priority(self):
-        return self.PRIORITY_CHOICES[self.priority][1]
+        return '{} priority'.format(self.PRIORITY_CHOICES[self.priority][1])
 
     def get_priority_bulma_class(self):
         return {
@@ -65,28 +65,39 @@ class RijpTestCaseBase(RijpModelBase):
         (2, 'Fail'),
         (3, 'Blocked'),
     )
-    prerequisites = models.CharField(
+    prerequisites = models.TextField(
         max_length = STRING_LENGTH_MEDIUM
     )
-    procedure = models.CharField(
+    procedure = models.TextField(
         max_length = STRING_LENGTH_MEDIUM
     )
-    data = models.CharField(
+    data = models.TextField(
         max_length = STRING_LENGTH_MEDIUM
     )
-    expected_result = models.CharField(
+    expected_result = models.TextField(
         max_length = STRING_LENGTH_MEDIUM
     )
     status = models.IntegerField(
         choices=STATUS_CHOICES,
         default=0
     )
-    remarks = models.CharField(
+    remarks = models.TextField(
         max_length = STRING_LENGTH_MEDIUM
     )
-    test_environment = models.CharField(
+    test_environment = models.TextField(
         max_length = STRING_LENGTH_MEDIUM
     )
+
+    def get_status(self):
+        return 'Status {}'.format(self.STATUS_CHOICES[self.status][1])
+
+    def get_status_bulma_class(self):
+        return {
+            0: 'is-white',
+            1: 'is-success',
+            2: 'is-danger',
+            3: 'is-warning',
+        }.get(self.status)
 
 
 class RijpTestTemplate(RijpModelBase):
