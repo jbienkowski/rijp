@@ -18,6 +18,7 @@ from .forms import \
 def handle_object_edit_request(request, object, form, url_next):
     if request.method == 'POST':
         f = form(request.POST, instance=object)
+        print(f)
         if f.is_valid():
             f.save()
             return redirect(url_next)
@@ -166,25 +167,6 @@ class ProjectTestTemplateDetailsListView(ListView):
 
 
 @login_required
-def project_test_template_new(request, project_pk):
-    if request.method == 'POST':
-        return render(
-            request,
-            'project_test_template_new.html'
-        )
-    else:
-        ctx = get_object_or_404(
-            RijpProject,
-            pk=project_pk
-        )
-        return render(
-            request,
-            'project_test_template_new.html',
-            {'ctx': ctx}
-        )
-
-
-@login_required
 def project_test_template_edit(request, template_pk):
     obj = get_object_or_404(
         RijpTestTemplate,
@@ -211,6 +193,30 @@ class ProjectTestCaseTemplateDetailsListView(ListView):
             pk=self.kwargs.get('test_case_template_pk')
         )
         return queryset
+
+
+@login_required
+def project_test_case_template_new(request, template_pk):
+    obj = RijpTestCaseTemplate()
+    obj.name = request.POST.get('name')
+    obj.description = request.POST.get('description')
+    obj.prerequisites = request.POST.get('prerequisites')
+    obj.procedure = request.POST.get('procedure')
+    obj.data = request.POST.get('data')
+    obj.expected_result = request.POST.get('expected_result')
+    obj.status = request.POST.get('status')
+    obj.remarks = request.POST.get('remarks')
+    obj.test_environment = request.POST.get('test_environment')
+    obj.test_template = RijpTestTemplate.objects.get(
+        pk=template_pk
+    )
+    url_next = reverse(
+        'project_test_template_details',
+        args=[template_pk]
+    )
+    return handle_object_edit_request(
+        request, obj, ProjectTestCaseTemplateForm, url_next
+    )
 
 
 @login_required

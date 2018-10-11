@@ -59,6 +59,11 @@ urlpatterns = [
         name='project_test_template_edit'
     ),
     re_path(
+        r'^{}test-templates/(?P<template_pk>\w+)/new-test-case-template/$'.format(URL_BASE),
+        rijp_views.project_test_case_template_new,
+        name='project_test_case_template_new'
+    ),
+    re_path(
         r'^{}test-case-templates/(?P<test_case_template_pk>\w+)/$'.format(URL_BASE),
         rijp_views.ProjectTestCaseTemplateDetailsListView.as_view(),
         name='project_test_case_template_details'
