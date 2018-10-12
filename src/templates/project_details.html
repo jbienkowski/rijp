@@ -81,7 +81,7 @@
     <p>Nothing to show</p>
     {% endif %}
     <hr>
-    <button id="modal-open" class="button is-link">New test template</button>
+    <a class="button is-link" href="{% url 'project_test_template_new' ctx.pk %}">New test template</a>
 </div>
 
 <div id="div_project_test_instances" hidden>
@@ -90,25 +90,6 @@
     {% else %}
         <p>Nothing to show</p>
     {% endif %}
-</div>
-
-<div id="modal" class="modal">
-    <div class="modal-background"></div>
-    <form action="{% url 'project_details' ctx.pk %}" method="post" novalidate>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">New test template</p>
-                <a id="modal-close" class="delete" aria-label="close"></a>
-            </header>
-            <section class="modal-card-body">
-                {% csrf_token %}
-                {% include 'includes/form.html' %}
-            </section>
-            <footer class="modal-card-foot">
-                <button type="submit" class="button is-success">Submit</button>
-            </footer>
-        </div>
-    </form>
 </div>
 
 {% endblock content %}

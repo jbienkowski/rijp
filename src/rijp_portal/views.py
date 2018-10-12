@@ -84,32 +84,16 @@ class ProjectDetailsListView(ListView):
         context['form'] = ProjectTestTemplateNewForm
         return context
 
-    def post(self, request, *args, **kwargs):
-        tt = RijpTestTemplate()
-        tt.name = self.request.POST.get('template_name')
-        tt.project = RijpProject.objects.get(pk=self.kwargs.get('project_pk'))
-        tt.save()
-        return redirect(
-            'project_details', self.kwargs.get('project_pk')
-        )
-
 
 @login_required
 def project_new(request):
-    if request.method == 'POST':
-        project_form = ProjectForm(request.POST)
-        if project_form.is_valid():
-            project_form.save()
-            return redirect('projects')
-        else:
-            return render(request, 'project_new.html', {
-                'form': project_form
-            })
-    else:
-        project_form = ProjectForm()
-        return render(request, 'project_new.html', {
-            'form': project_form
-        })
+    obj = RijpProject()
+    url_next = reverse(
+        'projects'
+    )
+    return handle_object_edit_request(
+        request, obj, ProjectForm, url_next
+    )
 
 
 @login_required
@@ -145,26 +129,19 @@ class ProjectTestTemplateDetailsListView(ListView):
         context['form'] = ProjectTestCaseTemplateForm
         return context
 
-    def post(self, request, *args, **kwargs):
-        tt = RijpTestCaseTemplate()
-        tt.name = self.request.POST.get('name')
-        tt.description = self.request.POST.get('description')
-        tt.prerequisites = self.request.POST.get('prerequisites')
-        tt.procedure = self.request.POST.get('procedure')
-        tt.data = self.request.POST.get('data')
-        tt.expected_result = self.request.POST.get('expected_result')
-        tt.status = self.request.POST.get('status')
-        tt.remarks = self.request.POST.get('remarks')
-        tt.test_environment = self.request.POST.get('test_environment')
-        tt.test_template = RijpTestTemplate.objects.get(
-            pk=self.kwargs.get('template_pk')
-        )
-        tt.save()
-        return redirect(
-            'project_test_template_details',
-            self.kwargs.get('template_pk')
-        )
 
+@login_required
+def project_test_template_new(request, project_pk):
+    obj = RijpTestTemplate()
+    obj.name = request.POST.get('template_name')
+    obj.project = RijpProject.objects.get(pk=project_pk)
+    url_next = reverse(
+        'project_details',
+        args=[project_pk]
+    )
+    return handle_object_edit_request(
+        request, obj, ProjectTestTemplateForm, url_next
+    )
 
 @login_required
 def project_test_template_edit(request, template_pk):

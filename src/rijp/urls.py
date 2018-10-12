@@ -49,6 +49,11 @@ urlpatterns = [
         name='project_edit'
     ),
     re_path(
+        r'^{}projects/(?P<project_pk>\w+)/new-test-template/$'.format(URL_BASE),
+        rijp_views.project_test_template_new,
+        name='project_test_template_new'
+    ),
+    re_path(
         r'^{}test-templates/(?P<template_pk>\w+)/$'.format(URL_BASE),
         rijp_views.ProjectTestTemplateDetailsListView.as_view(),
         name='project_test_template_details'
