@@ -5,15 +5,15 @@
     <div class="control">
         {% if field|field_type == 'charfield' %}
             <label class="label">{{ field.label }}</label>
-            {% render_field field|attr:"class:textarea" rows="4" %}
+            {% render_field field|add_error_class:"is-danger"|attr:"class:textarea" rows="4" %}
         {% elif field|field_type == 'typedchoicefield' %}
             <label class="label">{{ field.label }}</label>
             <div class="select">
-                {% render_field field|attr:"class:input" %}
+                {% render_field field|add_error_class:"is-danger"|attr:"class:input" %}
             </div>
         {% elif field|field_type == 'booleanfield' %}
             <label class="checkbox">
-                {% render_field field|attr:"class:checkbox" %}
+                {% render_field field|add_error_class:"is-danger"|attr:"class:checkbox" %}
                 {{ field.label }}
             </label>
         {% else %}
