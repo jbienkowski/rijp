@@ -9,22 +9,13 @@
 {% endblock breadcrumb %}
 
 {% block content %}
+
+{% include 'includes/messages.html' %}
+
 <div class="column is-6 is-offset-3">
   <form method="post" novalidate>
     {% csrf_token %}
-    <div class="field">
-      <label class="label">{{ user_form.first_name.label_tag }}</label>
-      <p class="control has-icons-left">
-        {% render_field user_form.first_name|attr:"class:input"|attr:"placeholder:First name" %}
-        <span class="icon is-small is-left">
-          <i class="fas fa-user"></i>
-        </span>
-      </p>
-      {% for e in user_form.first_name.errors %}
-      <p class="help is-danger">{{ e }}</p>
-      {% endfor %}
-    </div>
-    <hr>
+    {% include 'includes/form.html' %}
     <div class="field is-grouped">
       <div class="control">
         <button type="submit" class="button is-link">Submit</button>

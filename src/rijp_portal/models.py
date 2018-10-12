@@ -66,26 +66,32 @@ class RijpTestCaseBase(RijpModelBase):
         (3, 'Blocked'),
     )
     prerequisites = models.TextField(
-        max_length = STRING_LENGTH_MEDIUM
+        max_length = STRING_LENGTH_MEDIUM,
+        blank = True
     )
     procedure = models.TextField(
-        max_length = STRING_LENGTH_MEDIUM
+        max_length = STRING_LENGTH_MEDIUM,
+        blank = True
     )
     data = models.TextField(
-        max_length = STRING_LENGTH_MEDIUM
+        max_length = STRING_LENGTH_MEDIUM,
+        blank = True
     )
     expected_result = models.TextField(
-        max_length = STRING_LENGTH_MEDIUM
+        max_length = STRING_LENGTH_MEDIUM,
+        blank = True
     )
     status = models.IntegerField(
         choices=STATUS_CHOICES,
         default=0
     )
     remarks = models.TextField(
-        max_length = STRING_LENGTH_MEDIUM
+        max_length = STRING_LENGTH_MEDIUM,
+        blank = True
     )
     test_environment = models.TextField(
-        max_length = STRING_LENGTH_MEDIUM
+        max_length = STRING_LENGTH_MEDIUM,
+        blank = True
     )
 
     def get_status(self):

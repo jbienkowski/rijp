@@ -16,6 +16,12 @@
                 {% render_field field|add_error_class:"is-danger"|attr:"class:checkbox" %}
                 {{ field.label }}
             </label>
+        {% elif field|field_type == 'emailfield' %}
+            <label class="label">{{ field.label }}</label>
+            <label class="checkbox">
+                {% render_field field|add_error_class:"is-danger"|attr:"class:input" %}
+                {{ field.label }}
+            </label>
         {% else %}
             {% render_field field %}
         {% endif %}
