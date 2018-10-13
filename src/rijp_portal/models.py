@@ -32,7 +32,7 @@ class RijpModelBase(models.Model):
     name = models.CharField(
         max_length = STRING_LENGTH_SHORT
     )
-    description = models.CharField(
+    description = models.TextField(
         max_length = STRING_LENGTH_MEDIUM,
         blank = True
     )
