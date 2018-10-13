@@ -16,12 +16,17 @@ from .forms import \
     ProjectTestCaseTemplateForm
 
 
-def handle_object_edit_request(request, object, form, url_next):
+def handle_object_edit_request(request, object, form, url_next, desc='edited'):
     if request.method == 'POST':
         f = form(request.POST, instance=object)
         print(f)
         if f.is_valid():
             f.save()
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                '{} {}!'.format(object.name, desc)
+            )
             return redirect(url_next)
         else:
             return render(
@@ -93,7 +98,7 @@ def project_new(request):
         'projects'
     )
     return handle_object_edit_request(
-        request, obj, ProjectForm, url_next
+        request, obj, ProjectForm, url_next, 'created'
     )
 
 
@@ -141,7 +146,7 @@ def project_test_template_new(request, project_pk):
         args=[project_pk]
     )
     return handle_object_edit_request(
-        request, obj, ProjectTestTemplateForm, url_next
+        request, obj, ProjectTestTemplateForm, url_next, 'created'
     )
 
 @login_required
@@ -193,7 +198,7 @@ def project_test_case_template_new(request, template_pk):
         args=[template_pk]
     )
     return handle_object_edit_request(
-        request, obj, ProjectTestCaseTemplateForm, url_next
+        request, obj, ProjectTestCaseTemplateForm, url_next, 'created'
     )
 
 
