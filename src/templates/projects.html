@@ -18,6 +18,7 @@
             <th>Priority</th>
             <th>Created</th>
             <th>Modified</th>
+            <th>Quick access</th>
         </tr>
     </thead>
     <tbody>
@@ -37,6 +38,10 @@
             </td>
             <td>
                 {{ p.modified }}
+            </td>
+            <td>
+                <a class="button is-small is-link" href="{% url 'project_edit' p.pk %}">Edit</a>
+                <a class="button is-small is-danger" href="{% url 'project_archive' p.pk %}">Archive</a>
             </td>
         </tr>
         {% endfor %}

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from .models import \
-    Profile, RijpProject, RijpTestTemplate, RijpTestCaseTemplate
+    Profile, RijpModelBase, RijpProject, RijpTestTemplate, RijpTestCaseTemplate
 from django import forms
 
 
@@ -41,6 +41,11 @@ RIJP_TEST_CASE_BASE_LABELS = {
     'remarks': 'Remarks',
     'test_environment': 'Test Environment',
 }
+
+
+class RijpModelBaseForm(forms.Form):
+    class Meta:
+        model = RijpModelBase
 
 
 class UserForm(forms.ModelForm):

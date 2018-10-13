@@ -57,6 +57,9 @@ class RijpModelBase(models.Model):
 class RijpProject(RijpModelBase):
     pass
 
+    def get_test_templates(self):
+        return self.test_templates.filter(is_archived=False)
+
 
 class RijpTestCaseBase(RijpModelBase):
     STATUS_CHOICES = (
@@ -112,6 +115,9 @@ class RijpTestTemplate(RijpModelBase):
         related_name='test_templates',
         on_delete=models.CASCADE
     )
+
+    def get_test_case_templates(self):
+        return self.test_case_templates.filter(is_archived=False)
     
 
 class RijpTestCaseTemplate(RijpTestCaseBase):

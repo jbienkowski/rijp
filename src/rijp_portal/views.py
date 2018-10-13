@@ -11,7 +11,7 @@ from .models import \
     RijpProject, RijpTestTemplate, RijpTestCaseTemplate
 
 from .forms import \
-    UserForm, ProfileForm, ProjectForm, \
+    RijpModelBaseForm, UserForm, ProfileForm, ProjectForm, \
     ProjectTestTemplateNewForm, ProjectTestTemplateForm, \
     ProjectTestCaseTemplateForm
 
@@ -43,6 +43,42 @@ def handle_object_edit_request(request, object, form, url_next, desc='edited'):
         return render(
             request,
             'object_edit.html',
+            {
+                'form': f,
+                'ctx': object,
+                'url_next': url_next,
+            }
+        )
+
+
+def handle_object_archive_request(request, object, url_next):
+    if request.method == 'POST':
+        f = RijpModelBaseForm(request.POST)
+        print(f)
+        if f.is_valid():
+            object.is_archived = True
+            object.save()
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                '{} archived!'.format(object.name)
+            )
+            return redirect(url_next)
+        else:
+            return render(
+                request,
+                'object_archive.html',
+                {
+                    'form': f,
+                    'ctx': object,
+                    'url_next': url_next,
+                }
+            )
+    else:
+        f = RijpModelBaseForm()
+        return render(
+            request,
+            'object_archive.html',
             {
                 'form': f,
                 'ctx': object,
@@ -117,6 +153,20 @@ def project_edit(request, project_pk):
     )
 
 
+@login_required
+def project_archive(request, project_pk):
+    obj = get_object_or_404(
+        RijpProject,
+        pk=project_pk
+    )
+    url_next = reverse(
+        'projects'
+    )
+    return handle_object_archive_request(
+        request, obj, url_next
+    )
+
+
 @method_decorator(login_required, name='dispatch')
 class ProjectTestTemplateDetailsListView(ListView):
     model = RijpTestTemplate
@@ -161,6 +211,21 @@ def project_test_template_edit(request, template_pk):
     )
     return handle_object_edit_request(
         request, obj, ProjectTestTemplateForm, url_next
+    )
+
+
+@login_required
+def project_test_template_archive(request, template_pk):
+    obj = get_object_or_404(
+        RijpTestTemplate,
+        pk=template_pk
+    )
+    url_next = reverse(
+        'project_details',
+        args=[obj.project.pk]
+    )
+    return handle_object_archive_request(
+        request, obj, url_next
     )
 
 
@@ -214,6 +279,21 @@ def project_test_case_template_edit(request, test_case_template_pk):
     )
     return handle_object_edit_request(
         request, obj, ProjectTestCaseTemplateForm, url_next
+    )
+
+
+@login_required
+def project_test_case_template_archive(request, test_case_template_pk):
+    obj = get_object_or_404(
+        RijpTestCaseTemplate,
+        pk=test_case_template_pk
+    )
+    url_next = reverse(
+        'project_test_template_details',
+        args=[obj.test_template.pk]
+    )
+    return handle_object_archive_request(
+        request, obj, url_next
     )
 
 

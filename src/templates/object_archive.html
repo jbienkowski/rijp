@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}rijp / archive object{% endblock title %}
+
+{% block breadcrumb %}
+<li><a href="{% url 'index' %}">Home</a></li>
+<li class="is-active"><a href="#" aria-current="page">Archive</a></li>
+{% endblock breadcrumb %}
+
+{% block content %}
+<div class="column is-6 is-offset-3">
+<h2 class="subtitle">You are about to archive object</h2>
+<h1 class="title">{{ ctx.name }}</h1>
+<h2 class="subtitle">Are you sure?</h2>
+<form method="post" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="button is-danger">Yes</button>
+    <a href="{{ url_next }}" class="button is-text" role="button">No</a>
+</form>
+</div>
+{% endblock content %}
