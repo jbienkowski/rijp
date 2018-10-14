@@ -307,6 +307,15 @@ class DashboardListView(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
+class ArchiveListView(ListView):
+    model = None
+    template_name = 'archive.html'
+
+    def get_queryset(self):
+        return None
+
+
+@method_decorator(login_required, name='dispatch')
 class TestsListView(ListView):
     model = None
     template_name = 'tests.html'

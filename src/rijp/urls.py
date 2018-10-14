@@ -29,6 +29,11 @@ urlpatterns = [
         name='dashboard'
     ),
     path(
+        '{}archive/'.format(URL_BASE),
+        rijp_views.ArchiveListView.as_view(),
+        name='archive'
+    ),
+    path(
         '{}projects/'.format(URL_BASE),
         rijp_views.ProjectsListView.as_view(),
         name='projects'

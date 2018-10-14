@@ -36,41 +36,52 @@
                         <span>Dashboard</span>
                     </a>
 
+                    <a class="navbar-item" href="{% url 'projects' %}">
+                        <span class="icon has-text-primary">
+                            <i class="fas fa-project-diagram"></i>
+                        </span>
+                        <span>Projects</span>
+                    </a>
+
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">
-                            Projects
+                            More
                         </a>
                         <div id="moreDropdown" class="navbar-dropdown">
                             <a class="navbar-item " href="{% url 'projects' %}">
                                 <span>
-                                    <span class="icon has-text-primary">
-                                        <i class="fas fa-project-diagram"></i>
+                                    <span class="icon has-text-warning">
+                                        <i class="fas fa-vial"></i>
                                     </span>
-                                    <strong>Open projects</strong>
+                                    <strong>Tests</strong>
                                     <br>
-                                    Open and ongoing
+                                    Open and ongoing tests
                                 </span>
                             </a>
                             <hr class="navbar-divider">
-                            <a class="navbar-item " href="{% url 'projects' %}">
+                            <a class="navbar-item " href="{% url 'archive' %}">
                                 <span>
                                     <span class="icon has-text-danger">
                                         <i class="fas fa-history"></i>
                                     </span>
-                                    <strong>Project archive</strong>
+                                    <strong>Archive</strong>
                                     <br>
-                                    Closed and archived
+                                    Archived objects
+                                </span>
+                            </a>
+                            <hr class="navbar-divider">
+                            <a class="navbar-item " href="{% url 'my_account' %}">
+                                <span>
+                                    <span class="icon has-text-info">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <strong>My account ({{ user.username }})</strong>
+                                    <br>
+                                    Account details
                                 </span>
                             </a>
                         </div>
                     </div>
-
-                    <a class="navbar-item" href="{% url 'tests' %}">
-                        <span class="icon has-text-warning">
-                            <i class="fas fa-vial"></i>
-                        </span>
-                        <span>Tests</span>
-                    </a>
                 </div>
                 {% endif %}
                 <div class="navbar-end">
@@ -99,9 +110,6 @@
                             <p class="control">
                                 <a class="button is-link" href="{% url 'project_new' %}">
                                     <strong>New project</strong>
-                                </a>
-                                <a class="button is-link" href="{% url 'my_account' %}">
-                                    <strong>My account ({{ user.username }})</strong>
                                 </a>
                                 <a class="button is-danger" href="{% url 'logout' %}">
                                     <strong>Logout</strong>
