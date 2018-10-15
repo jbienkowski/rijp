@@ -206,8 +206,8 @@ def project_test_template_edit(request, template_pk):
         pk=template_pk
     )
     url_next = reverse(
-        'project_test_template_details',
-        args=[template_pk]
+        'project_details',
+        args=[obj.project.pk]
     )
     return handle_object_edit_request(
         request, obj, ProjectTestTemplateForm, url_next

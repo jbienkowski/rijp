@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from enum import Enum
 
 from django.db import models
-from django.utils import timezone
+from datetime import datetime
 from django.contrib.auth.models import User
 
 STRING_LENGTH_SHORT = 256
@@ -21,10 +21,11 @@ class RijpModelBase(models.Model):
         (4, 'Immediate'),
     )
     created = models.DateTimeField(
-        default=timezone.now
+        default=datetime.now
     )
-    modified = models.DateField(
-        default=timezone.now
+    modified = models.DateTimeField(
+        # default value is handled by the signals in signals.py
+        # default=datetime.now
     )
     is_archived = models.BooleanField(
         default=False
