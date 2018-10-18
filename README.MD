@@ -1,5 +1,5 @@
 # Quick start guide
-1. Create the .env configuration file in `/src/stationbook/.env`. Example test server configuration:
+1. Create the .env configuration file in `/src/.env`. Example test server configuration:
     ```
     SECRET_KEY='abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
     DEBUG=True
