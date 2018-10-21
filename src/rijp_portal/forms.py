@@ -18,7 +18,7 @@ RIJP_MODEL_BASE_LABELS = {
     'is_archived': 'Is archived',
 }
 
-RIJP_TEST_CASE_BASE_FIELDS = (
+RIJP_TEST_CASE_BASE_FIELDS = [
     'name',
     'description',
     'prerequisites',
@@ -28,7 +28,7 @@ RIJP_TEST_CASE_BASE_FIELDS = (
     'status',
     'remarks',
     'test_environment',
-)
+]
 
 RIJP_TEST_CASE_BASE_LABELS = {
     'name': 'Name',
@@ -103,4 +103,5 @@ class ProjectTestCaseTemplateForm(forms.ModelForm):
     class Meta:
         model = RijpTestCaseTemplate
         fields = RIJP_TEST_CASE_BASE_FIELDS
+        exclude = ['status']
         labels = RIJP_TEST_CASE_BASE_LABELS
