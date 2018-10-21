@@ -252,7 +252,7 @@ def project_test_case_template_new(request, template_pk):
     obj.procedure = request.POST.get('procedure')
     obj.data = request.POST.get('data')
     obj.expected_result = request.POST.get('expected_result')
-    obj.status = request.POST.get('status')
+    obj.status = 0
     obj.remarks = request.POST.get('remarks')
     obj.test_environment = request.POST.get('test_environment')
     obj.test_template = RijpTestTemplate.objects.get(
