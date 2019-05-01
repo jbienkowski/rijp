@@ -7,9 +7,7 @@
 <li><a href="{% url 'index' %}">Home</a></li>
 <li><a href="{% url 'projects' %}">Projects</a></li>
 <li><a href="{% url 'project_details' ctx.test_template.project.pk %}">{{ ctx.test_template.project.name }}</a></li>
-<li class="is-active"><a>Test templates</a></li>
 <li><a href="{% url 'project_test_template_details' ctx.test_template.pk %}">{{ ctx.test_template.name }}</a></li>
-<li class="is-active"><a>Test case templates</a></li>
 <li class="is-active"><a href="#" aria-current="page">{{ ctx.name }}</a></li>
 {% endblock breadcrumb %}
 

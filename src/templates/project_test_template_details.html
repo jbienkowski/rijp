@@ -7,7 +7,6 @@
 <li><a href="{% url 'index' %}">Home</a></li>
 <li><a href="{% url 'projects' %}">Projects</a></li>
 <li><a href="{% url 'project_details' ctx.project.pk %}">{{ ctx.project.name }}</a></li>
-<li class="is-active"><a>Test templates</a></li>
 <li class="is-active"><a href="#" aria-current="page">{{ ctx.name }}</a></li>
 {% endblock breadcrumb %}
 
@@ -23,11 +22,6 @@
         <li id="tab_template_test_case_templates">
             <a>
                 <span>Test case templates</span>
-            </a>
-        </li>
-        <li id="tab_template_test_instances">
-            <a>
-                <span>Test instances</span>
             </a>
         </li>
     </ul>
@@ -90,13 +84,6 @@
     <a class="button is-link" href="{% url 'project_test_case_template_new' ctx.pk %}">New test case template</a>
 </div>
 
-<div id="div_template_test_instances" hidden>
-    {% if ctx.test_case_instances.all %}
-    {% else %}
-    <p>Nothing to show</p>
-    {% endif %}
-</div>
-
 {% endblock content %}
 
 {% block javascript %}
@@ -117,11 +104,6 @@
         hideall();
         $('#tab_template_test_case_templates').addClass('is-active');
         $('#div_template_test_case_templates').prop('hidden', false);
-    });
-    $('#tab_template_test_instances').on('click', function(e) {
-        hideall();
-        $('#tab_template_test_instances').addClass('is-active');
-        $('#div_template_test_instances').prop('hidden', false);
     });
 </script>
 {% endblock javascript %}
