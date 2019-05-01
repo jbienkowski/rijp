@@ -33,6 +33,11 @@ urlpatterns = [
         rijp_views.ArchiveListView.as_view(),
         name='archive'
     ),
+    re_path(
+        r'^{}restore/(?P<object_pk>\w+)/$'.format(URL_BASE),
+        rijp_views.object_restore,
+        name='object_restore'
+    ),
     path(
         '{}projects/'.format(URL_BASE),
         rijp_views.ProjectsListView.as_view(),

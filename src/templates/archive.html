@@ -10,4 +10,48 @@
 
 {% block content %}
 <h1 class="title">List of archived objects</h1>
+<table id="archived_table" class="table" width="100%">
+    <thead>
+        <tr>
+            <th>Object name</th>
+            <th>Description</th>
+            <th>Priority</th>
+            <th>Created</th>
+            <th>Modified</th>
+            <th>Restore</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in ctx %}
+        <tr>
+            <td>
+                {{ p.name }}
+            </td>
+            <td>
+                {{ p.description }}
+            </td>
+            <td>
+                <span class="tag {{ p.get_priority_bulma_class }}">{{ p.get_priority }}</span>
+            </td>
+            <td>
+                {{ p.created }}
+            </td>
+            <td>
+                {{ p.modified }}
+            </td>
+            <td>
+                <a class="button is-small" href="{% url 'object_restore' p.pk %}">Restore</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock content %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#archived_table').DataTable();
+    })
+</script>
+{% endblock javascript %}

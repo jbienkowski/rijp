@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView
 from django.db import transaction
 
 from .models import \
-    RijpProject, RijpTestTemplate, RijpTestCaseTemplate
+    RijpModelBase, RijpProject, RijpTestTemplate, RijpTestCaseTemplate
 
 from .forms import \
     RijpModelBaseForm, UserForm, ProfileForm, ProjectForm, \
@@ -79,6 +79,42 @@ def handle_object_archive_request(request, object, url_next):
         return render(
             request,
             'object_archive.html',
+            {
+                'form': f,
+                'ctx': object,
+                'url_next': url_next,
+            }
+        )
+
+
+def handle_object_restore_request(request, object, url_next):
+    if request.method == 'POST':
+        f = RijpModelBaseForm(request.POST)
+        print(f)
+        if f.is_valid():
+            object.is_archived = False
+            object.save()
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                '{} restored!'.format(object.name)
+            )
+            return redirect(url_next)
+        else:
+            return render(
+                request,
+                'object_restore.html',
+                {
+                    'form': f,
+                    'ctx': object,
+                    'url_next': url_next,
+                }
+            )
+    else:
+        f = RijpModelBaseForm()
+        return render(
+            request,
+            'object_restore.html',
             {
                 'form': f,
                 'ctx': object,
@@ -163,6 +199,20 @@ def project_archive(request, project_pk):
         'projects'
     )
     return handle_object_archive_request(
+        request, obj, url_next
+    )
+
+
+@login_required
+def object_restore(request, object_pk):
+    obj = get_object_or_404(
+        RijpModelBase,
+        pk=object_pk
+    )
+    url_next = reverse(
+        'archive'
+    )
+    return handle_object_restore_request(
         request, obj, url_next
     )
 
@@ -308,11 +358,13 @@ class DashboardListView(ListView):
 
 @method_decorator(login_required, name='dispatch')
 class ArchiveListView(ListView):
-    model = None
+    model = RijpModelBase
+    context_object_name = 'ctx'
     template_name = 'archive.html'
 
     def get_queryset(self):
-        return None
+        queryset = RijpModelBase.objects.filter(is_archived=True)
+        return queryset
 
 
 @method_decorator(login_required, name='dispatch')
