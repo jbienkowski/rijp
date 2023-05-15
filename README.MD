@@ -42,7 +42,7 @@
     ```
 1. Go to the root directory:
     ```
-    $ cd stationbook/
+    $ cd src/
     ```
 1. Prepare the database migration and apply it:
     ```

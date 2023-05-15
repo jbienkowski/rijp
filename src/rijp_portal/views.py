@@ -1,17 +1,17 @@
 from django.shortcuts import \
-    get_object_or_404, redirect, render, render_to_response
+    get_object_or_404, redirect, render
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from django.db import transaction
 
 from .models import \
     RijpModelBase, RijpProject, RijpTestTemplate, RijpTestCaseTemplate
 
 from .forms import \
-    RijpModelBaseForm, UserForm, ProfileForm, ProjectForm, \
+    RijpModelBaseForm, UserForm, ProjectForm, \
     ProjectTestTemplateNewForm, ProjectTestTemplateForm, \
     ProjectTestCaseTemplateForm
 
